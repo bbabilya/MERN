@@ -19,10 +19,9 @@ function App() {
       </p>
       <Routes>
         <Route path="/home" element={<Home />}/>
-        <Route path="/:number" element={<Number />}/>
-        <Route path="/hello" element={<Hello />}/>
-        <Route path="/hello/:textColor" element={<Hello />}/>
-        <Route path="/hello/:textColor/:backgroundColor" element={<Hello />}/>
+        <Route path="/:textBody" element={<Hello />}/>
+        <Route path="/:textBody/:textColor" element={<Hello />}/>
+        <Route path="/:textBody/:textColor/:backgroundColor" element={<Hello />}/>
       </Routes>
     </div>
   );
