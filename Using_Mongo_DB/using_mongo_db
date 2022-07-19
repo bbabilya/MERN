@@ -1,0 +1,336 @@
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use my_first_db
+switched to db my_first_db
+> db.createCollection("students")
+{ "ok" : 1 }
+> db.students.insert({name: "kaija", home_state: "california", lucky_number: 4, birthday:{month:01, day:06, year: 2002 }})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "jonas", home_state: "washington", lucky_number: 4, birthday:{month:01, day: 27, year: 1996 }})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "brandi", home_state: "louisiana", lucky_number: 8, birthday:{month:11, day: 25, year: 1992 }})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "juan", home_state: "florida", lucky_number: 3, birthday:{month:07, day: 08, year: 1996 }})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "chris", home_state: "louisiana", lucky_number: 9, birthday:{month:01, day: 27, year: 1992}})
+WriteResult({ "nInserted" : 1 })
+> db.students.find()
+{ "_id" : ObjectId("62d59b32bb0dd8b36c938f55"), "name" : "kaija", "home_state" : "california", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 6, "year" : 2002 } }
+{ "_id" : ObjectId("62d59b65bb0dd8b36c938f56"), "name" : "jonas", "home_state" : "washington", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 27, "year" : 1996 } }
+{ "_id" : ObjectId("62d59b83bb0dd8b36c938f57"), "name" : "brandi", "home_state" : "louisiana", "lucky_number" : 8, "birthday" : { "month" : 11, "day" : 25, "year" : 1992 } }
+{ "_id" : ObjectId("62d59bbfbb0dd8b36c938f58"), "name" : "juan", "home_state" : "florida", "lucky_number" : 3, "birthday" : { "month" : 7, "day" : 8, "year" : 1996 } }
+{ "_id" : ObjectId("62d59c4bbb0dd8b36c938f59"), "name" : "chris", "home_state" : "louisiana", "lucky_number" : 9, "birthday" : { "month" : 1, "day" : 27, "year" : 1992 } }
+> db.students.find(home_state: "california").pretty()
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:27
+> db.students.find({home_state: "california"}).pretty()
+{
+	"_id" : ObjectId("62d59b32bb0dd8b36c938f55"),
+	"name" : "kaija",
+	"home_state" : "california",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 6,
+		"year" : 2002
+	}
+}
+> db.students.find({lucky_number: {$gt: 3}}).pretty()
+{
+	"_id" : ObjectId("62d59b32bb0dd8b36c938f55"),
+	"name" : "kaija",
+	"home_state" : "california",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 6,
+		"year" : 2002
+	}
+}
+{
+	"_id" : ObjectId("62d59b65bb0dd8b36c938f56"),
+	"name" : "jonas",
+	"home_state" : "washington",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1996
+	}
+}
+{
+	"_id" : ObjectId("62d59b83bb0dd8b36c938f57"),
+	"name" : "brandi",
+	"home_state" : "louisiana",
+	"lucky_number" : 8,
+	"birthday" : {
+		"month" : 11,
+		"day" : 25,
+		"year" : 1992
+	}
+}
+{
+	"_id" : ObjectId("62d59c4bbb0dd8b36c938f59"),
+	"name" : "chris",
+	"home_state" : "louisiana",
+	"lucky_number" : 9,
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1992
+	}
+}
+> db.students.find({lucky_number: {$lte: 10}}).pretty()
+{
+	"_id" : ObjectId("62d59b32bb0dd8b36c938f55"),
+	"name" : "kaija",
+	"home_state" : "california",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 6,
+		"year" : 2002
+	}
+}
+{
+	"_id" : ObjectId("62d59b65bb0dd8b36c938f56"),
+	"name" : "jonas",
+	"home_state" : "washington",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1996
+	}
+}
+{
+	"_id" : ObjectId("62d59b83bb0dd8b36c938f57"),
+	"name" : "brandi",
+	"home_state" : "louisiana",
+	"lucky_number" : 8,
+	"birthday" : {
+		"month" : 11,
+		"day" : 25,
+		"year" : 1992
+	}
+}
+{
+	"_id" : ObjectId("62d59bbfbb0dd8b36c938f58"),
+	"name" : "juan",
+	"home_state" : "florida",
+	"lucky_number" : 3,
+	"birthday" : {
+		"month" : 7,
+		"day" : 8,
+		"year" : 1996
+	}
+}
+{
+	"_id" : ObjectId("62d59c4bbb0dd8b36c938f59"),
+	"name" : "chris",
+	"home_state" : "louisiana",
+	"lucky_number" : 9,
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1992
+	}
+}
+> db.students.find({lucky_number: {$1-9}}).pretty()
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:35
+> db.students.find({lucky_number: {$gte: 1, lte: 9}}).pretty()
+Error: error: {
+	"ok" : 0,
+	"errmsg" : "unknown operator: lte",
+	"code" : 2,
+	"codeName" : "BadValue"
+}
+> db.students.find({lucky_number : {$gte: 1, $lte: 9}}).pretty()
+{
+	"_id" : ObjectId("62d59b32bb0dd8b36c938f55"),
+	"name" : "kaija",
+	"home_state" : "california",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 6,
+		"year" : 2002
+	}
+}
+{
+	"_id" : ObjectId("62d59b65bb0dd8b36c938f56"),
+	"name" : "jonas",
+	"home_state" : "washington",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1996
+	}
+}
+{
+	"_id" : ObjectId("62d59b83bb0dd8b36c938f57"),
+	"name" : "brandi",
+	"home_state" : "louisiana",
+	"lucky_number" : 8,
+	"birthday" : {
+		"month" : 11,
+		"day" : 25,
+		"year" : 1992
+	}
+}
+{
+	"_id" : ObjectId("62d59bbfbb0dd8b36c938f58"),
+	"name" : "juan",
+	"home_state" : "florida",
+	"lucky_number" : 3,
+	"birthday" : {
+		"month" : 7,
+		"day" : 8,
+		"year" : 1996
+	}
+}
+{
+	"_id" : ObjectId("62d59c4bbb0dd8b36c938f59"),
+	"name" : "chris",
+	"home_state" : "louisiana",
+	"lucky_number" : 9,
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1992
+	}
+}
+> db.students.updateMany({}, {$set: {interests: ["coding", "brunch", "MongoDB"]}})
+{ "acknowledged" : true, "matchedCount" : 5, "modifiedCount" : 5 }
+> db.students.find({name: "kaija"}).pretty()
+{
+	"_id" : ObjectId("62d59b32bb0dd8b36c938f55"),
+	"name" : "kaija",
+	"home_state" : "california",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 6,
+		"year" : 2002
+	},
+	"interests" : [
+		"coding",
+		"brunch",
+		"MongoDB"
+	]
+}
+> db.students.update({name: "kaija"}, {$push: {interests: "gaming"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({name: "kaija"}).pretty()
+{
+	"_id" : ObjectId("62d59b32bb0dd8b36c938f55"),
+	"name" : "kaija",
+	"home_state" : "california",
+	"lucky_number" : 4,
+	"birthday" : {
+		"month" : 1,
+		"day" : 6,
+		"year" : 2002
+	},
+	"interests" : [
+		"coding",
+		"brunch",
+		"MongoDB",
+		"gaming"
+	]
+}
+> db.students.update({name: "chris"}, {$push: {interests: "crypto"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: "juan"}, {$push: {interests: "reggaeton"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: "brandi"}, {$push: {interests: "taxes"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: "jonas"}, {$push: {interests: "hairless cats"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name: "brandi"}, {$pop: {interests: 1}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({name: "brandi"}).pretty()
+{
+	"_id" : ObjectId("62d59b83bb0dd8b36c938f57"),
+	"name" : "brandi",
+	"home_state" : "louisiana",
+	"lucky_number" : 8,
+	"birthday" : {
+		"month" : 11,
+		"day" : 25,
+		"year" : 1992
+	},
+	"interests" : [
+		"coding",
+		"brunch",
+		"MongoDB"
+	]
+}
+> db.students.deleteMany({home_state: "california"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.students.delete({name: "chris"})
+uncaught exception: TypeError: db.students.delete is not a function :
+@(shell):1:1
+> db.students.deleteOne({name: "chris"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.students.deleteOne({lucky_number: {$gt: 5}})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.students.updateMany({}, {$set: {number_of_belts: 0]}})
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:53
+> db.students.updateMany({}, {$set: {number_of_belts: 0}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.students.updateMany({home_state: "washington"}, {$set: {number_of_belts: 1}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.students.updateMany({}, {$rename: {"number_of_belts":"belts_earned"}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.students.updateMany({}, {$unset: {"lucky_number"}})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:51
+> db.students.updateMany({}, {$unset: {"lucky_number":1}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.students.find({name: "brandi"}).pretty()
+> db.students.find({name: "jonas"}).pretty()
+{
+	"_id" : ObjectId("62d59b65bb0dd8b36c938f56"),
+	"name" : "jonas",
+	"home_state" : "washington",
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1996
+	},
+	"interests" : [
+		"coding",
+		"brunch",
+		"MongoDB",
+		"hairless cats"
+	],
+	"belts_earned" : 1
+}
+> db.students.updateMany({}, {$set: {updated_on : "07/18/2022"}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.students.find({name: "jonas"}).pretty()
+{
+	"_id" : ObjectId("62d59b65bb0dd8b36c938f56"),
+	"name" : "jonas",
+	"home_state" : "washington",
+	"birthday" : {
+		"month" : 1,
+		"day" : 27,
+		"year" : 1996
+	},
+	"interests" : [
+		"coding",
+		"brunch",
+		"MongoDB",
+		"hairless cats"
+	],
+	"belts_earned" : 1,
+	"updated_on" : "07/18/2022"
+}
+> 
